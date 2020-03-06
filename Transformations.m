@@ -35,10 +35,11 @@ display_vertices(rotated_vertices, 12, 'Rotated Quad');
 % 4) Edit the next 4 lines and use the implemented functions to produce
 % the Target Images 1-4 (see instructions) and display them.
 % Please recall that you are supposed to call the transform_vertices function only once per image.
+
 image1_vertices = transform_vertices(quad,mtranslate(-3,0) * mrotate(55)); % displace it back and rotate
 image2_vertices = transform_vertices(quad,mtranslate(-(3*sind(35)/sind(90)),-(3*sind(55)/sind(90))) * mrotate(55)); % use law of sines to solve the triangles for the displacement
 image3_vertices = transform_vertices(quad,mtranslate(1.12,1.68) * mrotate(340) * mscale(2,3)); % TODO: edit this
-image4_vertices = transform_vertices(quad,mrotate(45) * mscale(1,1)); % TODO: edit this
+image4_vertices = transform_vertices(quad, mscale(1,3) * mrotate(45) ); % TODO: edit this
 
 display_vertices(image1_vertices, 13, 'Target Image 1');
 display_vertices(image2_vertices, 14, 'Target Image 2');
