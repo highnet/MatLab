@@ -99,9 +99,12 @@ function [R, G, B] = evc_transform_neutral(R, G, B, asShotNeutral)
 % NOTE: The following three lines can be removed. They prevent the framework
 %       from crashing.
 
-R = zeros(size(R));
-G = zeros(size(G));
-B = zeros(size(B));
+% R = double(R); ?
+% G = double(G); ?
+% B = double(B); ?
+R = R / asShotNeutral(1);
+G = G / asShotNeutral(2);
+B = B / asShotNeutral(3);
 
 end
 
@@ -124,9 +127,12 @@ function [R, G, B] = evc_interpolate(R, G, B)
 % NOTE: The following three lines can be removed. They prevent the framework
 %       from crashing.
 
-R = zeros(size(R));
-G = zeros(size(G));
-B = zeros(size(B));
+brKernel = [0.25 .5 0.25; .5 1 .5; 0.25 .5 0.25];
+gKernel = [0 0.25 0; 0.25 1 0.25; 0 0.25 0];
+
+R = imfilter(R,brKernel,'same','conv');
+G = imfilter(G,gKernel,'same','conv');
+B = imfilter(B,brKernel,'same','conv');
 
 end
 
@@ -147,6 +153,6 @@ function [result] = evc_concat(R, G, B)
 % NOTE: The following line can be removed. It prevents the framework
 %       from crashing.
 
-result = zeros([size(R, 1), size(R, 2), 3]);
+result = cat(3,R,G,B);
 
 end
