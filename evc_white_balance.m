@@ -29,11 +29,22 @@ red = double(red);
 green = double(green);
 blue = double(blue);
 
-if (not(white(1)==0) && not(white(2)==0 && not(white(3))==0) && white(1) >= 0 && white(2) >= 0 && white(3) >= 0)
-    red = red / white(1);
-    green = green / white(2);
-    blue = blue / white(3);
+if(white(1) == 0)
+    white(1) = 1;
 end
+
+if(white(2) == 0)
+    white(2) = 1;
+end
+
+if(white(3) == 0)
+    white(3) = 1;
+end
+
+red = red / white(1);
+green = green / white(2);
+blue = blue / white(3);
+
 
 result = cat(3,red,green,blue);
 
