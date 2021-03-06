@@ -146,8 +146,40 @@ function [result] = evc_filter(input, kernel)
 % Do not use the conv or the imfilter or similar functions here.
 % The output image should have the same size as the input image.
 
-% TODO: TRY THIS
-result = input;
+red = input(:,:,1);
+green = input(:,:,2);
+blue = input(:,:,3);
+[height, width, dim] = size(input);
+new_green = im2double(zeros(height,width));
+new_red = im2double(zeros(height,width));
+new_blue = im2double(zeros(height,width));
+sumR = 0;
+sumG = 0;
+sumB = 0;
+
+for row = 1:height % Iterate through each pixel
+    for column = 1:width % Iterate through each pixel
+        for kdx = -2:2 % kdx and kdy are the cyclic coordinates for the 5x5 mask with distance from the center.
+            for kdy = -2:2
+                mx = row+kdx; % the matrix x and y values are offset by the current row and column...
+                my = column+kdy; % ...and by the current dx and dy
+                if (mx > 0 && my > 0 && mx <= height && my <= width) % if matrix x and y are within bounds of the image
+                    sumR = sumR + kernel(kdx+3,kdy+3) * red(mx,my); % multiply the kernel value with the matrix value...
+                    sumG = sumG + kernel(kdx+3,kdy+3) * green(mx,my);
+                    sumB = sumB + kernel(kdx+3,kdy+3) * blue(mx,my);%...and increment the sum
+                end
+            end
+        end
+                  new_red(row,column) = sumR; % set the convoluted color...
+                  new_green(row,column) = sumG;
+                  new_blue(row,column) = sumB;
+                  sumR = 0;%...and reset for next iteration
+                  sumG = 0;
+                  sumB = 0;
+    end 
+end
+
+result = cat(3,new_red,new_green,new_blue);
 
 end
 
